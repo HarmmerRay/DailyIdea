@@ -34,6 +34,15 @@ export function NavBar() {
           {metadata[columnId].name}
         </Link>
       ))}
+      <Link
+        to="/push-records"
+        className={$(
+          "px-2 hover:(bg-primary/10 rounded-md) cursor-pointer transition-all",
+          "op-70 dark:op-90",
+        )}
+      >
+        推送记录
+      </Link>
     </span>
   )
 }

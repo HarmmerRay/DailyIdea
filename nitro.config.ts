@@ -13,14 +13,44 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   sourceMap: false,
   database: {
-    default: {
-      connector: "better-sqlite3",
-    },
+    default: process.env.USE_MYSQL === "true"
+      ? {
+          connector: "mysql2",
+          options: {
+            host: process.env.MYSQL_HOST || "localhost",
+            port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
+            user: process.env.MYSQL_USER || "newsnow",
+            password: process.env.MYSQL_PASSWORD || "newsnow123",
+            database: process.env.MYSQL_DATABASE || "newsnow",
+            connectTimeout: 10000,
+            acquireTimeout: 10000,
+            timeout: 10000,
+            reconnect: true,
+          },
+        }
+      : {
+          connector: "better-sqlite3",
+        },
   },
   devDatabase: {
-    default: {
-      connector: "better-sqlite3",
-    },
+    default: process.env.USE_MYSQL === "true"
+      ? {
+          connector: "mysql2",
+          options: {
+            host: process.env.MYSQL_HOST || "localhost",
+            port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
+            user: process.env.MYSQL_USER || "newsnow",
+            password: process.env.MYSQL_PASSWORD || "newsnow123",
+            database: process.env.MYSQL_DATABASE || "newsnow",
+            connectTimeout: 10000,
+            acquireTimeout: 10000,
+            timeout: 10000,
+            reconnect: true,
+          },
+        }
+      : {
+          connector: "better-sqlite3",
+        },
   },
   imports: {
     dirs: ["server/utils", "shared"],
