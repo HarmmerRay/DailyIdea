@@ -11,11 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UsersImport } from './routes/users'
 import { Route as PushRecordsImport } from './routes/push-records'
 import { Route as IndexImport } from './routes/index'
 import { Route as CColumnImport } from './routes/c.$column'
 
 // Create/Update Routes
+
+const UsersRoute = UsersImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PushRecordsRoute = PushRecordsImport.update({
   id: '/push-records',
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PushRecordsImport
       parentRoute: typeof rootRoute
     }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersImport
+      parentRoute: typeof rootRoute
+    }
     '/c/$column': {
       id: '/c/$column'
       path: '/c/$column'
@@ -68,12 +82,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/push-records': typeof PushRecordsRoute
+  '/users': typeof UsersRoute
   '/c/$column': typeof CColumnRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/push-records': typeof PushRecordsRoute
+  '/users': typeof UsersRoute
   '/c/$column': typeof CColumnRoute
 }
 
@@ -81,27 +97,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/push-records': typeof PushRecordsRoute
+  '/users': typeof UsersRoute
   '/c/$column': typeof CColumnRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/push-records' | '/c/$column'
+  fullPaths: '/' | '/push-records' | '/users' | '/c/$column'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/push-records' | '/c/$column'
-  id: '__root__' | '/' | '/push-records' | '/c/$column'
+  to: '/' | '/push-records' | '/users' | '/c/$column'
+  id: '__root__' | '/' | '/push-records' | '/users' | '/c/$column'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PushRecordsRoute: typeof PushRecordsRoute
+  UsersRoute: typeof UsersRoute
   CColumnRoute: typeof CColumnRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PushRecordsRoute: PushRecordsRoute,
+  UsersRoute: UsersRoute,
   CColumnRoute: CColumnRoute,
 }
 
@@ -117,6 +136,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/push-records",
+        "/users",
         "/c/$column"
       ]
     },
@@ -125,6 +145,9 @@ export const routeTree = rootRoute
     },
     "/push-records": {
       "filePath": "push-records.tsx"
+    },
+    "/users": {
+      "filePath": "users.tsx"
     },
     "/c/$column": {
       "filePath": "c.$column.tsx"

@@ -80,13 +80,19 @@ export class PushRecordsService {
   }
 
   /**
-   * Get pending records (tomorrow and future)
+   * Get all historical records (last 30 days)
    */
-  async getPendingRecords(): Promise<PushRecord[]> {
-    const tomorrow = dayjs().add(1, "day").format("YYYY-MM-DD")
-    const tomorrowRecords = await this.getDailyRecords(tomorrow)
+  async getHistoricalRecords(): Promise<PushRecord[]> {
+    const records: PushRecord[] = []
+    
+    // Get records from the last 30 days
+    for (let i = 0; i <= 30; i++) {
+      const date = dayjs().subtract(i, "day").format("YYYY-MM-DD")
+      const dailyRecords = await this.getDailyRecords(date)
+      records.push(...dailyRecords.filter(record => record.status === "sent"))
+    }
 
-    return tomorrowRecords.filter(record => record.status === "pending")
+    return records.sort((a, b) => new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime())
   }
 
   /**

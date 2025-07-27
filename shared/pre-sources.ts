@@ -29,6 +29,7 @@ export const originSources = {
     type: "hottest",
     column: "china",
     color: "blue",
+    interval: Time.Fast,
     home: "https://www.zhihu.com",
   },
   "weibo": {
@@ -42,7 +43,7 @@ export const originSources = {
   },
   "zaobao": {
     name: "联合早报",
-    interval: Time.Common,
+    interval: Time.Default,
     type: "realtime",
     column: "world",
     color: "red",
@@ -55,6 +56,7 @@ export const originSources = {
     column: "tech",
     color: "green",
     title: "今日最热",
+    interval: Time.Fast,
     home: "https://coolapk.com",
   },
   "mktnews": {
@@ -82,12 +84,12 @@ export const originSources = {
       },
       news: {
         title: "最新资讯",
-        interval: Time.Common,
+        interval: Time.Default,
       },
       hot: {
         title: "最热文章",
         type: "hottest",
-        interval: Time.Common,
+        interval: Time.Default,
       },
     },
   },
@@ -144,7 +146,7 @@ export const originSources = {
   },
   "thepaper": {
     name: "澎湃新闻",
-    interval: Time.Common,
+    interval: Time.Default,
     type: "hottest",
     column: "china",
     title: "热榜",
@@ -238,7 +240,7 @@ export const originSources = {
       },
       news: {
         title: "头条",
-        interval: Time.Common,
+        interval: Time.Default,
       },
     },
   },
@@ -296,7 +298,7 @@ export const originSources = {
         column: "china",
         disable: "cf",
         type: "hottest",
-        interval: Time.Common,
+        interval: Time.Default,
       },
     },
   },
@@ -345,7 +347,7 @@ export const originSources = {
       hot: {
         title: "今日最热",
         type: "hottest",
-        interval: Time.Common,
+        interval: Time.Default,
         home: "https://linux.do/hot",
       },
     },
@@ -402,13 +404,13 @@ export const originSources = {
     sub: {
       latest: {
         title: "最新",
-        interval: Time.Common,
+        interval: Time.Default,
         home: "https://www.chongbuluo.com/forum.php?mod=guide&view=newthread",
       },
       hot: {
         title: "最热",
         type: "hottest",
-        interval: Time.Common,
+        interval: Time.Default,
         home: "https://www.chongbuluo.com/forum.php?mod=guide&view=hot",
       },
     },

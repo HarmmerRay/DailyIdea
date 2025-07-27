@@ -15,7 +15,11 @@
       "Bash(npm run dev:*)",
       "Bash(pkill:*)",
       "Bash(node:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(echo $G_CLIENT_ID)",
+      "Bash(curl:*)",
+      "Bash(echo \"MYSQL_HOST: $MYSQL_HOST\")",
+      "Bash(echo:*)"
     ],
     "deny": []
   }

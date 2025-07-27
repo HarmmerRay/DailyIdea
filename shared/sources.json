@@ -22,7 +22,7 @@
     "column": "china",
     "home": "https://www.zhihu.com",
     "color": "blue",
-    "interval": 600000
+    "interval": 300000
   },
   "weibo": {
     "title": "实时热搜",
@@ -40,7 +40,7 @@
     "column": "world",
     "home": "https://www.zaobao.com",
     "color": "red",
-    "interval": 1800000
+    "interval": 600000
   },
   "coolapk": {
     "title": "今日最热",
@@ -49,7 +49,7 @@
     "column": "tech",
     "home": "https://coolapk.com",
     "color": "green",
-    "interval": 600000
+    "interval": 300000
   },
   "mktnews": {
     "redirect": "mktnews-flash",
@@ -92,7 +92,7 @@
     "column": "finance",
     "home": "https://wallstreetcn.com/",
     "color": "blue",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "最新资讯"
   },
   "wallstreetcn-hot": {
@@ -101,7 +101,7 @@
     "column": "finance",
     "home": "https://wallstreetcn.com/",
     "color": "blue",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "最热文章"
   },
   "36kr": {
@@ -174,7 +174,7 @@
     "column": "china",
     "home": "https://www.thepaper.cn",
     "color": "gray",
-    "interval": 1800000
+    "interval": 600000
   },
   "sputniknewscn": {
     "name": "卫星通讯社",
@@ -297,7 +297,7 @@
     "column": "finance",
     "home": "https://www.fastbull.cn",
     "color": "emerald",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "头条"
   },
   "solidot": {
@@ -378,7 +378,7 @@
     "column": "china",
     "home": "https://www.bilibili.com",
     "color": "blue",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "排行榜"
   },
   "kuaishou": {
@@ -453,7 +453,7 @@
     "column": "china",
     "home": "https://www.chongbuluo.com/forum.php?mod=guide&view=newthread",
     "color": "green",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "最新"
   },
   "chongbuluo-latest": {
@@ -461,7 +461,7 @@
     "column": "china",
     "home": "https://www.chongbuluo.com/forum.php?mod=guide&view=newthread",
     "color": "green",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "最新"
   },
   "chongbuluo-hot": {
@@ -470,7 +470,7 @@
     "column": "china",
     "home": "https://www.chongbuluo.com/forum.php?mod=guide&view=hot",
     "color": "green",
-    "interval": 1800000,
+    "interval": 600000,
     "title": "最热"
   }
 }
