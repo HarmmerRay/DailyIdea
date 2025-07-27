@@ -25,25 +25,6 @@ services:
       retries: 5
       start_period: 30s
 
-  # 可选：phpMyAdmin 数据库管理界面
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2
-    container_name: newsnow-phpmyadmin
-    restart: unless-stopped
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_USER: ${MYSQL_USER:-newsnow}
-      PMA_PASSWORD: ${MYSQL_PASSWORD:-newsnow123}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-newsnow123}
-    ports:
-      - '${PHPMYADMIN_PORT:-8080}:80'
-    depends_on:
-      mysql:
-        condition: service_healthy
-    networks:
-      - newsnow-network
-
 volumes:
   mysql_data:
     driver: local

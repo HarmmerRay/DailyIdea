@@ -6,10 +6,10 @@
   "packageManager": "pnpm@10.5.2",
   "author": {
     "url": "https://github.com/ourongxing/",
-    "email": "orongxing@gmail.com",
-    "name": "ourongxing"
+    "email": "zhao131804@gmail.com",
+    "name": "harmmerray"
   },
-  "homepage": "https://github.com/ourongxing/newsnow",
+  "homepage": "https://github.com/HarmmerRay/DailyIdea",
   "scripts": {
     "dev": "npm run presource && vite dev",
     "build": "npm run presource && vite build",
