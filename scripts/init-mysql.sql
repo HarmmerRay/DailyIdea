@@ -1,11 +1,11 @@
--- MySQL Database Initialization Script for NewsNow
+-- MySQL Database Initialization Script for dailyidea
 -- Run this script to create the required database and tables
 
 -- Create database if not exists
-CREATE DATABASE IF NOT EXISTS newsnow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS dailyidea CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Use the database
-USE newsnow;
+USE dailyidea;
 
 -- Create cache table
 CREATE TABLE IF NOT EXISTS cache (
@@ -55,6 +55,6 @@ CREATE INDEX IF NOT EXISTS idx_daily_tasks_status ON daily_tasks(status);
 CREATE INDEX IF NOT EXISTS idx_user_id ON user(id);
 
 -- Create MySQL user (optional - you can create this manually)
--- CREATE USER IF NOT EXISTS 'newsnow'@'%' IDENTIFIED BY 'your_password';
--- GRANT ALL PRIVILEGES ON newsnow.* TO 'newsnow'@'%';
+-- CREATE USER IF NOT EXISTS 'dailyidea'@'%' IDENTIFIED BY 'your_password';
+-- GRANT ALL PRIVILEGES ON dailyidea.* TO 'dailyidea'@'%';
 -- FLUSH PRIVILEGES; 

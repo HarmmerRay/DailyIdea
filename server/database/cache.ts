@@ -5,10 +5,6 @@ import type { CacheInfo, CacheRow } from "../types"
 
 // 简化的数据库类型检测函数
 function isMySQLDatabase(): boolean {
-  console.log("process.env.MYSQL_HOST", process.env.MYSQL_HOST)
-  console.log("process.env.MYSQL_USER", process.env.MYSQL_USER)
-  console.log("process.env.MYSQL_PASSWORD", process.env.MYSQL_PASSWORD)
-  console.log("process.env.MYSQL_DATABASE", process.env.MYSQL_DATABASE)
   const hasMySQLConfig = process.env.MYSQL_HOST && 
                         process.env.MYSQL_USER && 
                         process.env.MYSQL_PASSWORD && 

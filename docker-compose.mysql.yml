@@ -1,5 +1,6 @@
 version: '3.8'
-
+# 启动命令： docker-compose -f docker-compose.mysql.yml up -d
+# 构建标签镜像命令： 
 services:
   mysql:
     image: mysql:8.0
@@ -8,7 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-111111}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-dailyidea}
-      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_USER: ${MYSQL_USER:-hammer}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-111111}
     ports:
       - '${MYSQL_PORT:-3306}:3306'
