@@ -51,6 +51,22 @@ export interface UserInfo {
   updated: number
 }
 
+export interface User {
+  id: string
+  name: string
+  avatar: string
+  created_at: number
+  updated_at: number
+}
+
+export interface UserRow {
+  id: string
+  name: string
+  avatar: string
+  created_at: number
+  updated_at: number
+}
+
 export interface RSSHubOption {
   // default: true
   sorted?: boolean

@@ -1,5 +1,5 @@
 import type { colors } from "unocss/preset-mini"
-import type { columns, fixedColumnIds } from "./metadata"
+import type { columns, fixedColumnIds, specialPageIds } from "./metadata"
 import type { originSources } from "./pre-sources"
 
 export type Color = "primary" | Exclude<keyof typeof colors, "current" | "inherit" | "transparent" | "black" | "white">
@@ -34,7 +34,8 @@ export interface PrimitiveMetadata {
 }
 
 export type FixedColumnID = (typeof fixedColumnIds)[number]
-export type HiddenColumnID = Exclude<ColumnID, FixedColumnID>
+export type SpecialPageID = (typeof specialPageIds)[number]
+export type HiddenColumnID = Exclude<ColumnID, FixedColumnID | SpecialPageID>
 
 export interface OriginSource extends Partial<Omit<Source, "name" | "redirect">> {
   name: string

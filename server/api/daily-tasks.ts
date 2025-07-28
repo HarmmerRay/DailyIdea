@@ -1,18 +1,23 @@
-import { userService } from "../utils/user-service"
+import { UserService } from "../utils/user-service"
 
 export default defineEventHandler(async (event) => {
   const method = getMethod(event)
 
   try {
+    // 获取数据库连接
+    const db = useDatabase()
+    const userService = new UserService(db)
+
     switch (method) {
       case "GET": {
         const query = getQuery(event)
         const limit = query.limit ? parseInt(query.limit as string) : 30
 
-        const tasks = await userService.getDailyTasks(limit)
+        // 暂时返回空数组，因为精简后的用户服务没有 getDailyTasks 方法
         return {
           success: true,
-          data: tasks,
+          data: [],
+          message: "每日任务功能已简化，请使用其他 API"
         }
       }
 
@@ -27,11 +32,10 @@ export default defineEventHandler(async (event) => {
           }
         }
 
-        const taskId = await userService.saveDailyTask(date, title, summary, recipients, status)
+        // 暂时返回错误，因为精简后的用户服务没有 saveDailyTask 方法
         return {
-          success: true,
-          data: { id: taskId },
-          message: "每日任务记录保存成功",
+          success: false,
+          error: "每日任务功能已简化，请使用其他 API"
         }
       }
 

@@ -13,44 +13,36 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   sourceMap: false,
   database: {
-    default: process.env.USE_MYSQL === "true"
-      ? {
-          connector: "mysql2",
-          options: {
-            host: process.env.MYSQL_HOST || "localhost",
-            port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
-            user: process.env.MYSQL_USER || "root",
-            password: process.env.MYSQL_PASSWORD || "111111",
-            database: process.env.MYSQL_DATABASE || "dailyidea",
-            connectTimeout: 10000,
-            acquireTimeout: 10000,
-            timeout: 10000,
-            reconnect: true,
-          },
-        }
-      : {
-          connector: "better-sqlite3",
-        },
+    default: {
+      connector: "mysql2",
+      options: {
+        host: process.env.MYSQL_HOST || "localhost",
+        port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
+        user: process.env.MYSQL_USER || "root",
+        password: process.env.MYSQL_PASSWORD || "111111",
+        database: process.env.MYSQL_DATABASE || "dailyidea",
+        connectTimeout: 10000,
+        acquireTimeout: 10000,
+        timeout: 10000,
+        reconnect: true,
+      },
+    },
   },
   devDatabase: {
-    default: process.env.USE_MYSQL === "true"
-      ? {
-          connector: "mysql2",
-          options: {
-            host: process.env.MYSQL_HOST || "localhost",
-            port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
-            user: process.env.MYSQL_USER || "root",
-            password: process.env.MYSQL_PASSWORD || "111111",
-            database: process.env.MYSQL_DATABASE || "dailyidea",
-            connectTimeout: 10000,
-            acquireTimeout: 10000,
-            timeout: 10000,
-            reconnect: true,
-          },
-        }
-      : {
-          connector: "better-sqlite3",
-        },
+    default: {
+      connector: "mysql2",
+      options: {
+        host: process.env.MYSQL_HOST || "localhost",
+        port: Number.parseInt(process.env.MYSQL_PORT || "3306"),
+        user: process.env.MYSQL_USER || "root",
+        password: process.env.MYSQL_PASSWORD || "111111",
+        database: process.env.MYSQL_DATABASE || "dailyidea",
+        connectTimeout: 10000,
+        acquireTimeout: 10000,
+        timeout: 10000,
+        reconnect: true,
+      },
+    },
   },
   imports: {
     dirs: ["server/utils", "shared"],
@@ -64,13 +56,7 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
 
 if (process.env.VERCEL) {
   nitroOption.preset = "vercel-edge"
-  // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
   nitroOption.database = undefined
-  // nitroOption.vercel = {
-  //   config: {
-  //     cache: []
-  //   },
-  // }
 } else if (process.env.CF_PAGES) {
   nitroOption.preset = "cloudflare-pages"
   nitroOption.unenv = {

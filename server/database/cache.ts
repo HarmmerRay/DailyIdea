@@ -3,7 +3,7 @@ import type { NewsItem } from "@shared/types"
 import type { Database } from "db0"
 import type { CacheInfo, CacheRow } from "../types"
 
-// 改进的数据库类型检测函数
+// 简化的数据库类型检测函数
 function isMySQLDatabase(): boolean {
   console.log("process.env.MYSQL_HOST", process.env.MYSQL_HOST)
   console.log("process.env.MYSQL_USER", process.env.MYSQL_USER)
@@ -18,7 +18,7 @@ function isMySQLDatabase(): boolean {
     console.log('🔍 检测到 MySQL 配置，使用 MySQL 数据库')
     return true
   } else {
-    console.log('🔍 未检测到 MySQL 配置，使用 SQLite 数据库')
+    console.log('❌ 未检测到 MySQL 配置，请配置 MySQL 环境变量')
     return false
   }
 }
@@ -43,14 +43,7 @@ export class Cache {
         );
       `).run()
     } else {
-      // SQLite syntax
-      await this.db.prepare(`
-        CREATE TABLE IF NOT EXISTS cache (
-          id TEXT PRIMARY KEY,
-          updated INTEGER,
-          data TEXT
-        );
-      `).run()
+      throw new Error('MySQL 配置缺失，请检查环境变量')
     }
     logger.success(`init cache table`)
   }
@@ -64,10 +57,7 @@ export class Cache {
         `INSERT INTO cache (id, data, updated) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data), updated = VALUES(updated)`,
       ).run(key, JSON.stringify(value), now)
     } else {
-      // SQLite syntax - use INSERT OR REPLACE
-      await this.db.prepare(
-        `INSERT OR REPLACE INTO cache (id, data, updated) VALUES (?, ?, ?)`,
-      ).run(key, JSON.stringify(value), now)
+      throw new Error('MySQL 配置缺失，请检查环境变量')
     }
     logger.success(`set ${key} cache`)
   }
@@ -98,27 +88,23 @@ export class Cache {
      *   results:
      * }
      */
-    if (rows?.length) {
-      logger.success(`get entire (...) cache`)
-      return rows.map(row => ({
-        id: row.id,
-        updated: row.updated,
-        items: JSON.parse(row.data) as NewsItem[],
-      }))
-    } else {
-      return []
-    }
+    return rows.map(row => ({
+      id: row.id,
+      updated: row.updated,
+      items: JSON.parse(row.data),
+    }))
   }
 
   async delete(key: string) {
-    return await this.db.prepare(`DELETE FROM cache WHERE id = ?`).run(key)
+    await this.db.prepare(`DELETE FROM cache WHERE id = ?`).run(key)
+    logger.success(`delete ${key} cache`)
   }
 }
 
 export async function getCacheTable() {
+  if (process.env.ENABLE_CACHE === "false") return
   try {
     const db = useDatabase()
-    // logger.info("db: ", db.getInstance())
     if (process.env.ENABLE_CACHE === "false") return
     const cacheTable = new Cache(db)
     if (process.env.INIT_TABLE !== "false") await cacheTable.init()

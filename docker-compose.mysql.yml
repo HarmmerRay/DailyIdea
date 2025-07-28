@@ -3,13 +3,13 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: newsnow-mysql
+    container_name: dailyidea-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-newsnow123}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-newsnow}
-      MYSQL_USER: ${MYSQL_USER:-newsnow}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-newsnow123}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-111111}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-dailyidea}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-111111}
     ports:
       - '${MYSQL_PORT:-3306}:3306'
     volumes:
@@ -19,7 +19,7 @@ services:
       - newsnow-network
     command: --default-authentication-plugin=mysql_native_password
     healthcheck:
-      test: [CMD, mysqladmin, ping, -h, localhost, -u, root, -pnewsnow123]
+      test: [CMD, mysqladmin, ping, -h, localhost, -u, root, -p111111]
       interval: 30s
       timeout: 10s
       retries: 5

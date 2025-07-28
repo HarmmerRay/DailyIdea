@@ -24,10 +24,17 @@ export const columns = {
   hottest: {
     zh: "最热",
   },
+  "push-records": {
+    zh: "推送记录",
+  },
+  users: {
+    zh: "用户管理",
+  },
 } as const
 
 export const fixedColumnIds = ["focus", "hottest", "realtime"] as const satisfies Partial<ColumnID>[]
-export const hiddenColumns = Object.keys(columns).filter(id => !fixedColumnIds.includes(id as any)) as HiddenColumnID[]
+export const specialPageIds = ["push-records", "users"] as const
+export const hiddenColumns = Object.keys(columns).filter(id => !fixedColumnIds.includes(id as any) && !specialPageIds.includes(id as any)) as HiddenColumnID[]
 
 export const metadata: Metadata = typeSafeObjectFromEntries(typeSafeObjectEntries(columns).map(([k, v]) => {
   switch (k) {
@@ -45,6 +52,16 @@ export const metadata: Metadata = typeSafeObjectFromEntries(typeSafeObjectEntrie
       return [k, {
         name: v.zh,
         sources: typeSafeObjectEntries(sources).filter(([, v]) => v.type === "realtime" && !v.redirect).map(([k]) => k),
+      }]
+    case "push-records":
+      return [k, {
+        name: v.zh,
+        sources: [] as SourceID[],
+      }]
+    case "users":
+      return [k, {
+        name: v.zh,
+        sources: [] as SourceID[],
       }]
     default:
       return [k, {

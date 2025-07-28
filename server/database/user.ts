@@ -1,100 +1,96 @@
 import process from "node:process"
 import type { Database } from "db0"
-import type { UserInfo } from "#/types"
+import type { User, UserRow } from "../types"
+
+const isMySQL = process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE
 
 export class UserTable {
-  private db
+  private db: Database
+
   constructor(db: Database) {
     this.db = db
   }
 
   async init() {
-    // Check if we're using MySQL by looking for MySQL environment variables
-    const isMySQL = process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE
-    
     if (isMySQL) {
       // MySQL syntax
       await this.db.prepare(`
-        CREATE TABLE IF NOT EXISTS user (
+        CREATE TABLE IF NOT EXISTS users (
           id VARCHAR(255) PRIMARY KEY,
-          email VARCHAR(255),
-          data TEXT,
-          type VARCHAR(50),
-          created BIGINT,
-          updated BIGINT
+          name VARCHAR(255),
+          avatar VARCHAR(500),
+          created_at BIGINT,
+          updated_at BIGINT
         );
-      `).run()
-      await this.db.prepare(`
-        CREATE INDEX IF NOT EXISTS idx_user_id ON user(id);
       `).run()
     } else {
-      // SQLite syntax
-      await this.db.prepare(`
-        CREATE TABLE IF NOT EXISTS user (
-          id TEXT PRIMARY KEY,
-          email TEXT,
-          data TEXT,
-          type TEXT,
-          created INTEGER,
-          updated INTEGER
-        );
-      `).run()
-      await this.db.prepare(`
-        CREATE INDEX IF NOT EXISTS idx_user_id ON user(id);
-      `).run()
+      throw new Error('MySQL 配置缺失，请检查环境变量')
     }
-    logger.success(`init user table`)
+    logger.success(`init users table`)
   }
 
-  async addUser(id: string, email: string, type: "github") {
-    const u = await this.getUser(id)
+  async create(user: User) {
     const now = Date.now()
-    const isMySQL = process.env.MYSQL_HOST && process.env.MYSQL_USER && process.env.MYSQL_PASSWORD && process.env.MYSQL_DATABASE
-    
-    if (!u) {
-      if (isMySQL) {
-        // MySQL syntax - use ON DUPLICATE KEY UPDATE
-        await this.db.prepare(`INSERT INTO user (id, email, data, type, created, updated) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE email = VALUES(email), updated = VALUES(updated)`)
-          .run(id, email, "", type, now, now)
-      } else {
-        // SQLite syntax
-        await this.db.prepare(`INSERT INTO user (id, email, data, type, created, updated) VALUES (?, ?, ?, ?, ?, ?)`)
-          .run(id, email, "", type, now, now)
-      }
-      logger.success(`add user ${id}`)
-    } else if (u.email !== email && u.type !== type) {
-      await this.db.prepare(`UPDATE user SET email = ?, updated = ? WHERE id = ?`).run(email, now, id)
-      logger.success(`update user ${id} email`)
+    if (isMySQL) {
+      // MySQL syntax - use ON DUPLICATE KEY UPDATE
+      await this.db.prepare(
+        `INSERT INTO users (id, name, avatar, created_at, updated_at) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), avatar = VALUES(avatar), updated_at = VALUES(updated_at)`,
+      ).run(user.id, user.name, user.avatar, now, now)
     } else {
-      logger.info(`user ${id} already exists`)
+      throw new Error('MySQL 配置缺失，请检查环境变量')
+    }
+    logger.success(`create user ${user.id}`)
+  }
+
+  async get(id: string): Promise<User | undefined> {
+    const row = (await this.db.prepare(`SELECT id, name, avatar, created_at, updated_at FROM users WHERE id = ?`).get(id)) as UserRow | undefined
+    if (row) {
+      logger.success(`get user ${id}`)
+      return {
+        id: row.id,
+        name: row.name,
+        avatar: row.avatar,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }
     }
   }
 
-  async getUser(id: string) {
-    return (await this.db.prepare(`SELECT id, email, data, created, updated FROM user WHERE id = ?`).get(id)) as UserInfo
+  async getAll(): Promise<User[]> {
+    const res = await this.db.prepare(`SELECT id, name, avatar, created_at, updated_at FROM users ORDER BY created_at DESC`).all() as any
+    const rows = (res.results ?? res) as UserRow[]
+
+    /**
+     * https://developers.cloudflare.com/d1/build-with-d1/d1-client-api/#return-object
+     * cloudflare d1 .all() will return
+     * {
+     *   success: boolean
+     *   meta:
+     *   results:
+     * }
+     */
+    return rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      avatar: row.avatar,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+    }))
   }
 
-  async setData(key: string, value: string, updatedTime = Date.now()) {
-    const state = await this.db.prepare(
-      `UPDATE user SET data = ?, updated = ? WHERE id = ?`,
-    ).run(value, updatedTime, key)
-    if (!state.success) throw new Error(`set user ${key} data failed`)
-    logger.success(`set ${key} data`)
+  async delete(id: string) {
+    await this.db.prepare(`DELETE FROM users WHERE id = ?`).run(id)
+    logger.success(`delete user ${id}`)
   }
+}
 
-  async getData(id: string) {
-    const row: any = await this.db.prepare(`SELECT data, updated FROM user WHERE id = ?`).get(id)
-    if (!row) throw new Error(`user ${id} not found`)
-    logger.success(`get ${id} data`)
-    return row as {
-      data: string
-      updated: number
-    }
-  }
-
-  async deleteUser(key: string) {
-    const state = await this.db.prepare(`DELETE FROM user WHERE id = ?`).run(key)
-    if (!state.success) throw new Error(`delete user ${key} failed`)
-    logger.success(`delete user ${key}`)
+export async function getUserTable() {
+  try {
+    const db = useDatabase()
+    const userTable = new UserTable(db)
+    if (process.env.INIT_TABLE !== "false") await userTable.init()
+    return userTable
+  } catch (e) {
+    logger.error("failed to init database ", e)
   }
 }
