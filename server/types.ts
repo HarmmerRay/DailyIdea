@@ -67,6 +67,18 @@ export interface UserRow {
   updated_at: number
 }
 
+export interface PushRecord {
+  id: string
+  date: string
+  title: string
+  summary?: string
+  recipients: string[]
+  status: "sent" | "failed"
+  sent_at: number
+  created_at: number
+  updated_at: number
+}
+
 export interface RSSHubOption {
   // default: true
   sorted?: boolean

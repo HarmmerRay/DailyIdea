@@ -1,12 +1,10 @@
-import { UserService } from "../utils/user-service"
+import { userService } from "../services/user-service"
 
 export default defineEventHandler(async (event) => {
   const method = getMethod(event)
 
   try {
-    // 获取数据库连接并初始化
-    const db = useDatabase()
-    const userService = new UserService(db)
+    // 初始化用户服务
     await userService.init()
   } catch (initError) {
     console.error("Failed to initialize user service:", initError)
@@ -19,54 +17,48 @@ export default defineEventHandler(async (event) => {
   try {
     switch (method) {
       case "GET": {
-        // 精简后的用户服务没有 getAllUsers 方法，返回空数组
+        const users = await userService.getAllUsers()
         return {
           success: true,
-          data: [],
-          message: "用户管理功能已简化"
+          data: users,
         }
       }
 
       case "POST": {
         const body = await readBody(event)
-        const { email, name } = body
+        const { name, avatar } = body
 
-        if (!email) {
+        if (!name) {
           return {
             success: false,
-            error: "邮箱地址不能为空",
+            error: "用户名不能为空",
           }
         }
 
-        // 精简后的用户服务没有 addUser(email, name) 方法
+        const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        await userService.createUser({ id: userId, name, avatar })
         return {
-          success: false,
-          error: "用户管理功能已简化，请使用其他 API"
+          success: true,
+          data: { id: userId },
+          message: "用户创建成功",
         }
       }
 
       case "PUT": {
         const body = await readBody(event)
-        const { id, status } = body
+        const { id, name, avatar } = body
 
-        if (!id || !status) {
+        if (!id) {
           return {
             success: false,
-            error: "用户ID和状态不能为空",
+            error: "用户ID不能为空",
           }
         }
 
-        if (!["active", "inactive"].includes(status)) {
-          return {
-            success: false,
-            error: "状态值无效",
-          }
-        }
-
-        // 精简后的用户服务没有 updateUserStatus 方法
+        await userService.updateUser(id, { name, avatar })
         return {
-          success: false,
-          error: "用户管理功能已简化，请使用其他 API"
+          success: true,
+          message: "用户更新成功",
         }
       }
 
@@ -81,17 +73,10 @@ export default defineEventHandler(async (event) => {
           }
         }
 
-        try {
-          await userService.deleteUser(id)
-          return {
-            success: true,
-            message: "用户删除成功",
-          }
-        } catch (error) {
-          return {
-            success: false,
-            error: "用户删除失败",
-          }
+        await userService.deleteUser(id)
+        return {
+          success: true,
+          message: "用户删除成功",
         }
       }
 

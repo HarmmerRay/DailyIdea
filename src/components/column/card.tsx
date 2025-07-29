@@ -15,6 +15,9 @@ export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   setHandleRef?: (ref: HTMLElement | null) => void
 }
 
+// 这是 NewsCard 组件的 props 类型定义。
+// id: SourceID 表示新闻来源的唯一标识符。
+// setHandleRef?: (ref: HTMLElement | null) => void 是一个可选的回调函数，用于将某个 HTML 元素的引用传递出去，通常用于拖拽等场景。
 interface NewsCardProps {
   id: SourceID
   setHandleRef?: (ref: HTMLElement | null) => void

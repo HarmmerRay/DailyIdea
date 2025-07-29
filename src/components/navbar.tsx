@@ -41,16 +41,16 @@ export function NavBar() {
         </Link>
       ))}
       {specialPageIds.map(pageId => (
-        <Link
+      <Link
           key={pageId}
           to={pageId === "push-records" ? "/push-records" : "/users"}
-          className={$(
-            "px-2 hover:(bg-primary/10 rounded-md) cursor-pointer transition-all",
+        className={$(
+          "px-2 hover:(bg-primary/10 rounded-md) cursor-pointer transition-all",
             location.pathname === (pageId === "push-records" ? "/push-records" : "/users") ? "color-primary font-bold" : "op-70 dark:op-90",
-          )}
-        >
+        )}
+      >
           {metadata[pageId].name}
-        </Link>
+      </Link>
       ))}
     </span>
   )

@@ -9,8 +9,8 @@ export class UserService {
   constructor(db: Database) {
     this.db = db
     this.isMySQL = !!(process.env.MYSQL_HOST &&
-                   process.env.MYSQL_USER &&
-                   process.env.MYSQL_PASSWORD &&
+                  process.env.MYSQL_USER && 
+                  process.env.MYSQL_PASSWORD && 
                    process.env.MYSQL_DATABASE)
   }
 
@@ -39,7 +39,7 @@ export class UserService {
   async addUser(id: string, email: string, type: "github") {
     const u = await this.getUser(id)
     const now = Date.now()
-    
+
     if (!u) {
       if (this.isMySQL) {
         // MySQL syntax - use ON DUPLICATE KEY UPDATE
@@ -47,7 +47,7 @@ export class UserService {
           .run(id, email, "", type, now, now)
       } else {
         throw new Error('MySQL 配置缺失，请检查环境变量')
-      }
+    }
       logger.success(`add user ${id}`)
     } else if (u.email !== email && u.type !== type) {
       await this.db.prepare(`UPDATE user SET email = ?, updated = ? WHERE id = ?`).run(email, now, id)

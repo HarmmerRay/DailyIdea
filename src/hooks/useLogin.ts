@@ -5,6 +5,10 @@ const userAtom = atomWithStorage<{
 
 const jwtAtom = atomWithStorage("jwt", "")
 
+// atomWithStorage 是 Jotai 提供的一个工具，用于将 atom 的值与本地存储（localStorage）进行同步。
+// 具体来说，下面这个 enableLoginAtom 会把它的值（一个包含 enable 和可选 url 字段的对象）存储到 localStorage 的 "login" key 下。
+// 每当 atom 的值发生变化时，localStorage 也会自动更新；反之，localStorage 变化时 atom 也会同步。
+// 初始值为 { enable: true }，即默认启用登录功能。
 const enableLoginAtom = atomWithStorage<{
   enable: boolean
   url?: string
@@ -38,7 +42,7 @@ export function useLogin() {
   }, [])
 
   return {
-    loggedIn: !!jwt,
+    loggedIn: !!jwt,  // 将jwt转化为boolean ，此处双重否定表肯定，jwt存在时loggedIn为true，不存在为false
     userInfo,
     enableLogin: !!enableLogin.enable,
     logout,

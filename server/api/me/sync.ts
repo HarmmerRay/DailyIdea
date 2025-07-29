@@ -1,15 +1,15 @@
 import process from "node:process"
-import { UserTable } from "#/database/user"
+import { UserService } from "#/utils/user-service"
 
 export default defineEventHandler(async (event) => {
   try {
     const { id } = event.context.user
     const db = useDatabase()
     if (!db) throw new Error("Not found database")
-    const userTable = new UserTable(db)
-    if (process.env.INIT_TABLE !== "false") await userTable.init()
+    const userService = new UserService(db)
+    if (process.env.INIT_TABLE !== "false") await userService.init()
     if (event.method === "GET") {
-      const { data, updated } = await userTable.getData(id)
+      const { data, updated } = await userService.getData(id)
       return {
         data: data ? JSON.parse(data) : undefined,
         updatedTime: updated,
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
       const body = await readBody(event)
       verifyPrimitiveMetadata(body)
       const { updatedTime, data } = body
-      await userTable.setData(id, JSON.stringify(data), updatedTime)
+      await userService.setData(id, JSON.stringify(data), updatedTime)
       return {
         success: true,
         updatedTime,

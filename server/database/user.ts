@@ -31,14 +31,14 @@ export class UserTable {
 
   async create(user: User) {
     const now = Date.now()
-    if (isMySQL) {
-      // MySQL syntax - use ON DUPLICATE KEY UPDATE
+      if (isMySQL) {
+        // MySQL syntax - use ON DUPLICATE KEY UPDATE
       await this.db.prepare(
         `INSERT INTO users (id, name, avatar, created_at, updated_at) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE name = VALUES(name), avatar = VALUES(avatar), updated_at = VALUES(updated_at)`,
       ).run(user.id, user.name, user.avatar, now, now)
-    } else {
+      } else {
       throw new Error('MySQL 配置缺失，请检查环境变量')
-    }
+      }
     logger.success(`create user ${user.id}`)
   }
 
@@ -81,8 +81,8 @@ export class UserTable {
   async delete(id: string) {
     await this.db.prepare(`DELETE FROM users WHERE id = ?`).run(id)
     logger.success(`delete user ${id}`)
+    }
   }
-}
 
 export async function getUserTable() {
   try {
