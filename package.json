@@ -1,5 +1,5 @@
 {
-  "name": "newsnow",
+  "name": "dailyidea",
   "type": "module",
   "version": "0.0.31",
   "private": true,
@@ -21,7 +21,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.app.json",
     "release": "bumpp",
     "prepare": "simple-git-hooks",
-    "log": "wrangler pages deployment tail --project-name newsnow",
+    "log": "wrangler pages deployment tail --project-name dailyidea",
     "test": "vitest -c vitest.config.ts"
   },
   "dependencies": {

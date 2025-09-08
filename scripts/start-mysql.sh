@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# NewsNow MySQL Docker 启动脚本
+# DailyIdea MySQL Docker 启动脚本
 
-echo "🚀 启动 NewsNow MySQL 环境..."
+echo "🚀 启动 DailyIdea MySQL 环境..."
 
 # 检查Docker是否运行
 if ! docker info > /dev/null 2>&1; then
@@ -21,8 +21,8 @@ fi
 export $(grep -v '^#' .env.mysql | xargs)
 
 echo "📊 MySQL 配置信息:"
-echo "   数据库: ${MYSQL_DATABASE:-newsnow}"
-echo "   用户: ${MYSQL_USER:-newsnow}"
+echo "   数据库: ${MYSQL_DATABASE:-dailyidea}"
+echo "   用户: ${MYSQL_USER:-dailyidea}"
 echo "   端口: ${MYSQL_PORT:-3306}"
 echo "   phpMyAdmin: http://localhost:${PHPMYADMIN_PORT:-8080}"
 
@@ -40,7 +40,7 @@ timeout=60
 counter=0
 
 while [ $counter -lt $timeout ]; do
-    if docker exec newsnow-mysql mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD:-newsnow123} --silent > /dev/null 2>&1; then
+    if docker exec dailyidea-mysql mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD:-dailyidea123} --silent > /dev/null 2>&1; then
         echo "✅ MySQL 启动成功!"
         break
     fi
@@ -66,9 +66,9 @@ echo "🎉 MySQL 环境启动完成!"
 echo ""
 echo "📝 连接信息:"
 echo "   MySQL: localhost:${MYSQL_PORT:-3306}"
-echo "   数据库: ${MYSQL_DATABASE:-newsnow}"
-echo "   用户名: ${MYSQL_USER:-newsnow}"
-echo "   密码: ${MYSQL_PASSWORD:-newsnow123}"
+echo "   数据库: ${MYSQL_DATABASE:-dailyidea}"
+echo "   用户名: ${MYSQL_USER:-dailyidea}"
+echo "   密码: ${MYSQL_PASSWORD:-dailyidea123}"
 echo ""
 echo "🌐 管理界面:"
 echo "   phpMyAdmin: http://localhost:${PHPMYADMIN_PORT:-8080}"
@@ -77,4 +77,4 @@ echo "🔧 有用的命令:"
 echo "   查看日志: docker-compose -f docker-compose.mysql.yml --env-file .env.mysql logs -f"
 echo "   停止服务: docker-compose -f docker-compose.mysql.yml --env-file .env.mysql down"
 echo "   重启服务: docker-compose -f docker-compose.mysql.yml --env-file .env.mysql restart"
-echo "   进入MySQL: docker exec -it newsnow-mysql mysql -u ${MYSQL_USER:-newsnow} -p${MYSQL_PASSWORD:-newsnow123} ${MYSQL_DATABASE:-newsnow}"
+echo "   进入MySQL: docker exec -it dailyidea-mysql mysql -u ${MYSQL_USER:-dailyidea} -p${MYSQL_PASSWORD:-dailyidea123} ${MYSQL_DATABASE:-dailyidea}"

@@ -19,14 +19,14 @@ English | [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 ```json
 {
   "mcpServers": {
-    "newsnow": {
+    "dailyidea": {
       "command": "npx",
       "args": [
         "-y",
-        "newsnow-mcp-server"
+        "dailyidea-mcp-server"
       ],
       "env": {
-        "BASE_URL": "https://newsnow.busiyi.world"
+        "BASE_URL": "https://dailyidea.busiyi.world"
       }
     }
   }

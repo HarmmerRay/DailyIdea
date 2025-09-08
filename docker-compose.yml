@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-  newsnow:
-    image: ghcr.io/ourongxing/newsnow:latest
-    container_name: newsnow
+  dailyidea:
+    image: ghcr.io/ourongxing/dailyidea:latest
+    container_name: dailyidea
     ports:
       - '4444:4444'
     volumes:
-      - newsnow_data:/usr/app/.data
+      - dailyidea_data:/usr/app/.data
     environment:
       - HOST=0.0.0.0
       - PORT=4444
@@ -19,21 +19,21 @@ services:
       - ENABLE_CACHE=true
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
-      - MYSQL_USER=newsnow
+      - MYSQL_USER=dailyidea
       - MYSQL_PASSWORD=your_password
-      - MYSQL_DATABASE=newsnow
+      - MYSQL_DATABASE=dailyidea
       - MYSQL_SSL=false
     depends_on:
       - mysql
 
   mysql:
     image: mysql:8.0
-    container_name: newsnow_mysql
+    container_name: dailyidea_mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: newsnow
-      MYSQL_USER: newsnow
+      MYSQL_DATABASE: dailyidea
+      MYSQL_USER: dailyidea
       MYSQL_PASSWORD: your_password
     ports:
       - "3306:3306"
@@ -42,7 +42,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
 
 volumes:
-  newsnow_data:
-    name: newsnow_data
+  dailyidea_data:
+    name: dailyidea_data
   mysql_data:
-    name: newsnow_mysql_data
+    name: dailyidea_mysql_data

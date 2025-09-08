@@ -1,19 +1,19 @@
 # 该配置文件用于 Cloudflare Workers 项目的 wrangler 配置
 # 主要作用如下：
-# - 指定项目名称为 "newsnow"
+# - 指定项目名称为 "dailyidea"
 # - 设置构建输出目录为 "dist/output/public"
 # - 指定兼容性日期为 2024-10-03
-# - 配置 D1 数据库，绑定名为 "NEWSNOW_DB"，数据库名为 "newsnow-db"
+# - 配置 D1 数据库，绑定名为 "DAILYIDEA_DB"，数据库名为 "dailyidea-db"
 #
 # 什么是 Cloudflare Workers？
 # Cloudflare Workers 是 Cloudflare 提供的无服务器计算平台，允许开发者在全球 Cloudflare 边缘节点上运行 JavaScript、TypeScript、Wasm 等代码。
 # 它可以用来构建高性能的 API、网站后端、边缘计算服务等，无需自建服务器，具备高可用、低延迟、易扩展等特点。
 
-name = "newsnow"
+name = "dailyidea"
 pages_build_output_dir = "dist/output/public"
 compatibility_date = "2024-10-03"
 
 [[d1_databases]]
-binding = "NEWSNOW_DB"
-database_name = "newsnow-db"
+binding = "DAILYIDEA_DB"
+database_name = "dailyidea-db"
 database_id = ""

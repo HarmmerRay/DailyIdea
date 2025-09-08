@@ -18,14 +18,14 @@
 ```json
 {
   "mcpServers": {
-    "newsnow": {
+    "dailyidea": {
       "command": "npx",
       "args": [
         "-y",
-        "newsnow-mcp-server"
+        "dailyidea-mcp-server"
       ],
       "env": {
-        "BASE_URL": "https://newsnow.busiyi.world"
+        "BASE_URL": "https://dailyidea.busiyi.world"
       }
     }
   }

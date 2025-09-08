@@ -136,7 +136,7 @@ export class EnhancedEmailService {
           html: content.htmlContent,
           priority: "normal",
           headers: {
-            "X-Mailer": "NewsNow Business Analysis System",
+            "X-Mailer": "DailyIdea Business Analysis System",
             "X-Priority": "3",
           },
         })
